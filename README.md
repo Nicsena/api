@@ -12,6 +12,7 @@ The API will be available soon.
 **Public Endpoints:**
 
 - `/` -
+- `/ping` - Pong!
 - `/spotify/played` - Get recently played song from Spotify.
 - `/spotify/playing` - Get current song that is being played from Spotify.
 
