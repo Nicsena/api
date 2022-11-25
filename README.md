@@ -16,6 +16,7 @@ The API will be available soon.
 - `/spotify/played` - Get recently played song from Spotify.
 - `/spotify/playing` - Get current song that is being played from Spotify.
 - `/dashboard` - Web Dashboard. This requires authorization and only can be used by Nicsena.
+- `/tailscale/version` - Returns current version for tailscale. I will have to update this manually each time that a new version gets released.
 
 **Testing Endpoints:**
 These endpoints work only when the environment variable `NODE_ENV` is set to `development`.
@@ -35,5 +36,6 @@ These endpoints are only accessible by Nicsena.
 Routes for endpoints are located in `/routes/`.
 
 - `/routes/spotify.js` - Route for Spotify endpoints.
+- `/routes/tailscale.js` - Route for Tailscale endpoints.
 - `/routes/testing.js` - Route for Testing endponts. Testing endpoints only work when the environment variable `NODE_ENV` is set to `development`.
 - `/routes/private.js` - Rotue for Private endpoints. Private endpoints require `Authorization` header to use.
