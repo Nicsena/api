@@ -25,6 +25,7 @@ router.post("/webhook/update", (res, req) => {
     
     if( webhookSignature == hmac) {
         var currentTime = new Date().toLocaleString();
+
         //console.log("GitHub Webhook Signature does match!");
         if(headers["x-github-event"] === "push") {
             console.log(`[${currentTime}] GitHub Webhook - PUSH Event - Now updating`)
