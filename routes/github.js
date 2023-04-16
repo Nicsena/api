@@ -11,9 +11,9 @@ router.post("/webhook/update", (res, req) => {
     //var event = body["hook"]["events"][0];
 
     //console.log(event)
-    console.log(res.headers)
+    console.log("HEADERS", res.headers)
 
-    //console.log(res.body);
+    console.log("BODY",res.body);
     req.status(200).json({ message: "OK" })
 
 });
