@@ -12,6 +12,8 @@ To run this project, you will need to add the following environment variables to
 
 `TAILSCALE_WEBHOOK_SECRET`
 
+`GITHUB_WEBHOOK_SECRET` 
+
 `MONGODB_SERVER_ADDRESS`
 
 `MONGODB_SERVER_USERNAME`
@@ -33,6 +35,12 @@ To run this project, you will need to add the following environment variables to
 
 ### Spotify
 This is coming soon!
+
+### GitHub
+
+| Endpoint  | Method     | Description                |  Params |
+| :-------- | :------- | :------------------------- | :------- |
+| `/webhook/update` | `POST` | This is for GitHub Push Events. | `None` |
 
 ### Tailscale
 

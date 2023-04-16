@@ -18,7 +18,7 @@ router.all('*', async (req, res, next) => {
 
 router.get('/', async (req, res) => {
 
-return res.status(200).json({message: "Tailscale Endpoint - OK"});
+return res.status(200).json({message: "Tailscale Route"});
 
 });
 
@@ -50,8 +50,7 @@ var timeLeft = time - (5 * 60)
 
 // if the time of webhook signature is less than current server time.
 if(signatureTime < timeLeft ) {
-    //return res.status(400).json({ message: "" })
-    return res.sendStatus(400)
+    return res.status(400).json({ message: "Invaild Webhook Signature", reason: "Webhook Signature Time has expired." })
 }
 
 if(hmac !== signatureCode) {
