@@ -3,8 +3,12 @@ const router = express.Router()
 const crypto = require("crypto")
 const { exec } = require("child_process")
 
+router.all("*", (res, req, next) => {
+    next()
+});
+
 router.get("/", (res, req) => {
-    
+    res.status(200).json({ message: "GitHub Route"})
 });
 
 router.post("/webhook/update", (res, req) => {
@@ -16,7 +20,7 @@ router.post("/webhook/update", (res, req) => {
 
     if( webhookSignature !== hmac) {
         console.log("GitHub Webhook Signature doesn't match!");
-        res.status(400).json( { message: "Webhook Signature does not match!" } )
+        req.status(400).json( { message: "Webhook Signature does not match!" } )
     }
     
     if( webhookSignature == hmac) {
@@ -26,6 +30,7 @@ router.post("/webhook/update", (res, req) => {
             console.log(`[${currentTime}] GitHub Webhook - PUSH - Now updating`)
             exec('git pull --all');
         }
+        req.status(200).send({ message: "OK"});
     }
 
 });
