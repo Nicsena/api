@@ -12,7 +12,7 @@ To run this project, you will need to add the following environment variables to
 
 `TAILSCALE_WEBHOOK_SECRET`
 
-`GITHUB_WEBHOOK_SECRET`
+`GITHUB_WEBHOOK_SECRET` 
 
 `MONGODB_SERVER_ADDRESS`
 
