@@ -27,8 +27,8 @@ router.post("/webhook/update", (res, req) => {
         var currentTime = new Date().toLocaleString();
         console.log("GitHub Webhook Signature does match!");
         if(headers["x-github-event"] === "push") {
-            console.log(`[${currentTime}] GitHub Webhook - PUSH - Now updating`)
-            exec('git pull --all');
+            console.log(`[${currentTime}] GitHub Webhook - PUSH Event - Now updating`)
+            exec('git pull -f origin main');
         }
         req.status(200).send({ message: "OK"});
     }
