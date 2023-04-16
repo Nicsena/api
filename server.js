@@ -118,6 +118,6 @@ app.use('/tailscale', TailscaleRouter)
 const GitHubRouter = require(`${__dirname}/routes/github.js`)
 app.use('/github', GitHubRouter)
 
-const listener = app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log("Your app is listening on port " + PORT);
 });

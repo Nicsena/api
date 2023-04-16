@@ -3,6 +3,8 @@
 
 API for [nicsena.tk](nicsena.tk) and my personal website.
 
+You can try out the API at [api.nicsena.tk](api.nicsena.tk/)
+
 
 ## Environment Variables
 
