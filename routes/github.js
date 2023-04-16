@@ -28,7 +28,26 @@ router.post("/webhook/update", (res, req) => {
         //console.log("GitHub Webhook Signature does match!");
         if(headers["x-github-event"] === "push") {
             console.log(`[${currentTime}] GitHub Webhook - PUSH Event - Now updating`)
-            exec('git pull -f origin main');
+            var pro = exec('git pull -f origin main');
+
+            pro.stdout.on('data', (data => {
+                console.log(`${pro.pid} - ${data}`)
+              }));
+              
+              pro.stderr.on('data', (data => {
+                console.error(`${pro.pid} - ${data}`);
+              }));
+              
+              pro.on('close', (code, singal) => {
+                console.log(`${pro.pid} - ${code} - ${singal}`)
+              });
+              
+              pro.on('error', (err) => {
+                console.log(`${pro.pid} - ${err}`)
+                
+              });
+              
+
         }
         req.status(200).send({ message: "OK"});
     }
