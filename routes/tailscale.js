@@ -50,7 +50,7 @@ var timeLeft = time - (5 * 60)
 
 // if the time of webhook signature is less than current server time.
 if(signatureTime < timeLeft ) {
-    return res.status(400).json({ message: "Invaild Webhook Signature", reason: "Webhook Signature Time has expired." })
+    return res.status(400).json({ message: "Invaild Webhook Signature" })
 }
 
 if(hmac !== signatureCode) {
