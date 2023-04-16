@@ -1,9 +1,9 @@
 
 # API
 
-API for [nicsena.tk](nicsena.tk) and my personal website.
+API for <https://api.nicsena.tk/> and my personal website.
 
-You can try out the API at [api.nicsena.tk](api.nicsena.tk/)
+You can try out the API at <https://api.nicsena.tk/>
 
 
 ## Environment Variables
