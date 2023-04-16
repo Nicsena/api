@@ -117,5 +117,5 @@ app.use('/tailscale', TailscaleRouter)
 
 
 const listener = app.listen(PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+  console.log("Your app is listening on port " + PORT);
 });
