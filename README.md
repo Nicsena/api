@@ -32,7 +32,6 @@ To run this project, you will need to add the following environment variables to
 | :-------- | :------- | :------------------------- | :------- |
 | `/` | `GET` | . | `None` |
 | `/ping` | `GET` | Pong! | `None` |
-| `/database` | `GET` | Database Information - Connection Status, etc | `None`
 | `/health` | `GET` | API Health - uptime, cpu load, etc | `None` |
 
 ### Spotify
