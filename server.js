@@ -74,6 +74,9 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/health', async (req, res) => {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Pragma', 'no-cache');
+
   var uptime = os.uptime() * 1000
   var processuptime = Math.round(process.uptime() * 1000);
   var processmemory = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
