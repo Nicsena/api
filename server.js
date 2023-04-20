@@ -112,7 +112,6 @@ app.get('/health', async (req, res) => {
         swap: {
           total: formatBytes(systemMemory["swap"]["swaptotal"]),
           used: formatBytes(systemMemory["swap"]["swapused"]),
-          free: formatBytes(systemMemory["swap"]["free"])
         }
       },
       process: {
