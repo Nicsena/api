@@ -6,6 +6,8 @@ const os = require('os');
 const humanizeDuration = require("humanize-duration");
 const path = require("path")
 
+const { formatBytes, systemMemoryUsage } = require("./src/utility")
+
 var PORT = process.env["PORT"]
 let requests = 1;
 app.use(express.json())
@@ -71,8 +73,14 @@ app.get('/ping', (req, res) => {
   res.status(200).json({ message: 'Pong!' });
 });
 
-app.get('/database', async (req, res) => {
-  var MongooseConnection = {
+app.get('/health', async (req, res) => {
+  var uptime = os.uptime() * 1000
+  var processuptime = Math.round(process.uptime() * 1000);
+  var processmemory = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
+  var systemMemory = await systemMemoryUsage();
+
+
+    var MongooseConnection = {
     '0': 'Disconnected',
     '1': 'Connected',
     '2': 'Connecting',
@@ -81,20 +89,11 @@ app.get('/database', async (req, res) => {
   }
 
   res.status(200).json({
-    MongoDB: {
-      status: MongooseConnection[await mongodb_db.readyState]
-    }
-  })
-
-  
-
-});
-
-app.get('/health', (req, res) => {
-  var uptime = os.uptime() * 1000
-  var processuptime = Math.round(process.uptime() * 1000);
-
-  res.status(200).json({
+    database: {
+      MongoDB: {
+        status: MongooseConnection[await mongodb_db.readyState]
+     }
+    },
     uptime: {
       system: {
         milliseconds: uptime,
@@ -103,6 +102,21 @@ app.get('/health', (req, res) => {
       process: {
         milliseconds: processuptime,
         human: humanizeDuration(processuptime)
+      }
+    },
+    memory: {
+      system: {
+        total: formatBytes(systemMemory["total"]),
+        used: formatBytes(systemMemory["used"]),
+        free: formatBytes(systemMemory["free"]),
+        swap: {
+          total: formatBytes(systemMemory["swap"]["swaptotal"]),
+          used: formatBytes(systemMemory["swap"]["swapused"]),
+          free: formatBytes(systemMemory["swap"]["free"])
+        }
+      },
+      process: {
+        used: `${processmemory} MB`
       }
     },
     load: os.loadavg(),
