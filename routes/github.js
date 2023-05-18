@@ -20,7 +20,7 @@ router.post("/webhook/update", (res, req) => {
     var body = JSON.stringify(res.body)
     var headers = res.headers;
     var webhookSignature = headers["x-hub-signature"]
-    var hmac = `sha1=${crypto.createHmac('sha1', body).update(webhookSecret).digest("hex")}`
+    var hmac = `sha1=${crypto.createHmac('sha1', webhookSecret).update(body).digest("hex")}`
 
     if( webhookSignature !== hmac ) {
         console.log(`Webhook Signature doesn't match! - Expected Signature: ${hmac} - Header Signature: ${webhookSignature}`);
