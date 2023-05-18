@@ -1,9 +1,11 @@
 
 # API
 
-API for <https://api.nicsena.tk/> and my personal website.
+API for <https://nicsena.tk/> and my personal website.
 
 You can try out the API at <https://api.nicsena.tk/>
+
+If you want to test new endpoints and see new/future changes, you can use the dev verson at <https://api-dev.nicsena.tk/>
 
 
 ## Environment Variables
@@ -41,6 +43,7 @@ To run this project, you will need to add the following environment variables to
 | `/health` | `GET` | API Health - uptime, cpu load, etc | `None` |
 
 ### Spotify - TODO
+## Available in DEV
 
 | Endpoint  | Method     | Description                |  Params |
 | :-------- | :------- | :------------------------- | :------- |
