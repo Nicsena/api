@@ -75,10 +75,6 @@ app.get('/ping', (req, res) => {
   res.status(200).json({ message: 'Pong!' });
 });
 
-app.get('/env', (req, res) => {
-  res.status(200).json({ env: process.env, GITHUBSECRET: process.env.GITHUB_WEBHOOK_SECRET });
-});
-
 app.get('/health', async (req, res) => {
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   res.header('Pragma', 'no-cache');
