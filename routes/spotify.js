@@ -27,3 +27,6 @@ router.get("/playing", async (req, res) => {
 
 });
 
+
+module.exports = router
+
