@@ -3,6 +3,7 @@ const router = express.Router();
 var { AccessToken, RecentlyPlayed, CurrentPlaying } = require("./../src/spotify")
 var { simplifiedMilliseconds } = require("./../src/utility")
 
+const env = process.env
 var SpotifyClientID = env.SPOTIFY_CLIENT_ID
 var SpotifyClientSecret = env.SPOTIFY_CLIENT_SECRET
 var SpotifyRefreshToken = env.SPOTIFY_REFRESH_TOKEN
