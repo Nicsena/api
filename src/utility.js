@@ -12,35 +12,35 @@ function formatBytes(bytes, decimals = 2) {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
 
+function simplifiedMilliseconds(milliseconds) {
 
-async function systemMemoryUsage() {
-
-    const info = await si.mem()
-
-    var total = info["total"]    
-    var used = info["used"]
-    var free = info["free"]
-
-    var swaptotal = info["swaptotal"]
-    var swapused = info["swapused"]
-    var swapfree = info['swapfree']    
-
-    
-    return {
-        total: total,
-        used: used,
-        free: free,
-        swap: {
-            swaptotal: swaptotal,
-            swapused: swapused,
-            swapfree: swapfree
-
-        }
+    const totalSeconds = parseInt(Math.floor(milliseconds / 1000));
+    const totalMinutes = parseInt(Math.floor(totalSeconds / 60));
+    const totalHours = parseInt(Math.floor(totalMinutes / 60));
+    const days = parseInt(Math.floor(totalHours / 24));
+  
+    const seconds = parseInt(totalSeconds % 60);
+    const minutes = parseInt(totalMinutes % 60);
+    const hours = parseInt(totalHours % 24);
+  
+    let time = '1s';
+    if (days > 0) {
+      time = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    } else if (hours > 0) {
+      time = `${hours}h ${minutes}m ${seconds}s`;
+    } else if (minutes > 0) {
+      time = `${minutes}m ${seconds}s`;
+    } else if (seconds > 0) {
+      time = `${seconds}s`;
     }
-}
+    return time;
+  }
+
+
+
 
 
 module.exports = {
     formatBytes: formatBytes,
-    systemMemoryUsage: systemMemoryUsage
+    simplifiedMilliseconds: simplifiedMilliseconds
 }
