@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const crypto = require("crypto")
 const { exec } = require("child_process")
+var package = require("../package.json")
 
 const env = process.env
 var webhookSecret = env.GIT_WEBHOOK_SECRET
@@ -15,6 +16,11 @@ router.get("/", (res, req) => {
     req.status(200).json({ message: "GitHub Route"})
 });
 
+router.get("/repo/visit", (res, req) => {
+  var RepoURL = package["repository"]["url"]
+  if(!RepoURL) return res.status(404).json({ message: "There is no repository url in the package.json file."})
+  if(RepoURL) return res.status(200).redirect(RepoURL);
+});
 
 router.post("/webhook/update", (res, req) => {
     var body = res.body
@@ -24,7 +30,7 @@ router.post("/webhook/update", (res, req) => {
     var currentTime = new Date().toLocaleString();
 
     if( webhookSignature !== hmac ) {
-        console.log(`[${currentTime} Webhook - Signature doesn't match!`);
+        console.log(`[${currentTime}] Webhook - Signature doesn't match!`);
         return req.status(400).json( { message: "Webhook Signature does not match!" } )
     }
     

@@ -54,6 +54,7 @@ To run this project, you will need to add the following environment variables to
 
 | Endpoint  | Method     | Description                |  Params |
 | :-------- | :------- | :------------------------- | :------- |
+| `/git/repo/visit` | `POST` | This redirects to the repository URL in package.json | `None` |
 | `/git/webhook/update` | `POST` | This is for Git Push Events. | `None` |
 
 ### Tailscale

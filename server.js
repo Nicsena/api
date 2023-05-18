@@ -70,7 +70,7 @@ mongodb_db.on("error", function (err) {
 // -- PUBLIC ENDPOINTS --
 
 app.get('/', (req, res) => {
-  res.status(200).json({ message: "OK", version: package["version"]});
+  res.status(200).json({ message: "OK", version: package["version"], repository: package["repository"]["url"]});
 })
 
 app.get('/ping', (req, res) => {
