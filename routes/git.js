@@ -8,7 +8,7 @@ const env = process.env
 var webhookSecret = env.GIT_WEBHOOK_SECRET
 
 router.all("*", (res, req, next) => {
-    if(!webhookSecret) res.status(400).json({ status: 400, message: "Please set the GITHUB_WEBHOOK_SECRET environment variable"});
+    if(!webhookSecret) return res.status(400).json({ status: 400, message: "Please set the GITHUB_WEBHOOK_SECRET environment variable"});
     if(webhookSecret) return next();
 });
 
@@ -18,7 +18,7 @@ router.get("/", (res, req) => {
 
 router.get("/repo/visit", (res, req) => {
   var RepoURL = package["repository"]["url"]
-  if(!RepoURL) return res.status(404).json({ message: "There is no repository url in the package.json file."})
+  if(!RepoURL) return res.status(200).json({ message: "There is no repository url in the package.json file."})
   if(RepoURL) return res.status(200).redirect(RepoURL);
 });
 
@@ -31,7 +31,7 @@ router.post("/webhook/update", (res, req) => {
 
     if( webhookSignature !== hmac ) {
         console.log(`[${currentTime}] Webhook - Signature doesn't match!`);
-        return req.status(400).json( { message: "Webhook Signature does not match!" } )
+        return res.status(400).json( { message: "Webhook Signature does not match!" } )
     }
     
     if( webhookSignature == hmac ) {
@@ -61,7 +61,7 @@ router.post("/webhook/update", (res, req) => {
               
 
         }
-        return req.status(200).send({ message: "OK"});
+        return res.status(200).send({ message: "OK"});
     }
 
 });
