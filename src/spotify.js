@@ -51,9 +51,10 @@ async function getRecentlyPlayed() {
       })
     
       const result = await response
+      var body = result.json();
       
       if(result["status"] === 200) {
-        return result.json();
+        return body
       }
       
       if(result["status"] === 400) {
@@ -95,6 +96,10 @@ async function getCurrentPlaying() {
       if(result["status"] === 204) {
        return { status: 204, message: "Nothing is currently playing."}
       }
+
+      if(result["status"] === 400) {
+        return { status: 400, message: "Spotify API - Bad Request"}
+       }
       
       if(result["status"] === 401) {
        return { status: 401, message: "Spotify API - Unauthorized"}

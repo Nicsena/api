@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
-const { tailscaleEvents } = require("../models")
+const { tailscaleEvents } = require("./../models");
 var crypto = require('crypto');
 
 var env = process.env
