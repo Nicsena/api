@@ -4,7 +4,8 @@ const express = require("express");
 const app = express();
 const os = require('os');
 const humanizeDuration = require("humanize-duration");
-const path = require("path")
+const path = require("path");
+const env = process.env
 var package = require("./package.json")
 
 const { formatBytes } = require("./src/utility")
@@ -12,7 +13,8 @@ const { MemoryUsage } = require("./src/system")
 
 var PORT = process.env["PORT"]
 let requests = 1;
-app.use(express.json())
+app.use(express.raw({ inflate: true, type: 'application/json' }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, 'public'));
@@ -22,10 +24,10 @@ app.enable("trust proxy");
 // ======= DATABASES =========
 
 const mongoose = require("mongoose");
-var db_username = process.env.MONGODB_USERNAME;
-var db_password = process.env.MONGODB_PASSWORD;
-var db_address = process.env.MONGODB_SERVER;
-var db_name = process.env.MONGODB_DATABASE;
+var db_username = env.MONGODB_USERNAME;
+var db_password = env.MONGODB_PASSWORD;
+var db_address = env.MONGODB_SERVER;
+var db_name = env.MONGODB_DATABASE;
 var db_url = `mongodb://${db_username}:${db_password}@${db_address}/${db_name}?retryWrites=true&w=majority`;
 
 mongoose.connect(db_url, {
@@ -132,8 +134,8 @@ app.get('/health', async (req, res) => {
 const TailscaleRouter = require(`${__dirname}/routes/tailscale.js`)
 app.use('/tailscale', TailscaleRouter)
 
-const GitHubRouter = require(`${__dirname}/routes/github.js`)
-app.use('/github', GitHubRouter)
+const GitRouter = require(`${__dirname}/routes/git.js`)
+app.use('/git', GitRouter)
 
 const SpotifyRouter = require(`${__dirname}/routes/spotify.js`)
 app.use('/spotify', SpotifyRouter)

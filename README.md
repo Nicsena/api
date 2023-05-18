@@ -16,7 +16,7 @@ To run this project, you will need to add the following environment variables to
 
 `TAILSCALE_WEBHOOK_SECRET`
 
-`GITHUB_WEBHOOK_SECRET` 
+`GIT_WEBHOOK_SECRET` 
 
 `SPOTIFY_CLIENT_ID` 
 
@@ -50,11 +50,11 @@ To run this project, you will need to add the following environment variables to
 | `/spotify/played` | `GET` | Spotify User - Recently Played | `None` |
 | `/spotify/playing` | `GET` | Spotify User - Currently Playing | `None` |
 
-### GitHub
+### Git
 
 | Endpoint  | Method     | Description                |  Params |
 | :-------- | :------- | :------------------------- | :------- |
-| `/github/webhook/update` | `POST` | This is for GitHub Push Events. | `None` |
+| `/git/webhook/update` | `POST` | This is for Git Push Events. | `None` |
 
 ### Tailscale
 
