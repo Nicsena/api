@@ -6,7 +6,8 @@ const os = require('os');
 const humanizeDuration = require("humanize-duration");
 const path = require("path")
 
-const { formatBytes, systemMemoryUsage } = require("./src/utility")
+const { formatBytes } = require("./src/utility")
+const { MemoryUsage } = require("./src/system")
 
 var PORT = process.env["PORT"]
 let requests = 1;
@@ -79,11 +80,10 @@ app.get('/health', async (req, res) => {
 
   var uptime = os.uptime() * 1000
   var processuptime = Math.round(process.uptime() * 1000);
-  var processmemory = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
-  var systemMemory = await systemMemoryUsage();
+  var processmemory = process.memoryUsage().heapUsed;
+  var systemMemory = await MemoryUsage();
 
-
-    var MongooseConnection = {
+  var MongooseConnection = {
     '0': 'Disconnected',
     '1': 'Connected',
     '2': 'Connecting',
@@ -118,7 +118,7 @@ app.get('/health', async (req, res) => {
         }
       },
       process: {
-        used: `${processmemory} MB`
+        used: formatBytes(processmemory)
       }
     },
     load: os.loadavg(),
@@ -133,6 +133,9 @@ app.use('/tailscale', TailscaleRouter)
 
 const GitHubRouter = require(`${__dirname}/routes/github.js`)
 app.use('/github', GitHubRouter)
+
+const SpotifyRouter = require(`${__dirname}/routes/spotify.js`)
+app.use('/spotify', SpotifyRouter)
 
 app.listen(PORT, () => {
   console.log("Your app is listening on port " + PORT);

@@ -4,22 +4,17 @@ const mongoose = require("mongoose")
 const { tailscaleEvents } = require("../models")
 var crypto = require('crypto');
 
+var env = process.env
+var webhookSecretKey = env.TAILSCALE_WEBHOOK_SECRET
+
 router.all('*', async (req, res, next) => {
-
-    var webhookSecretKey = process.env.TAILSCALE_WEBHOOK_SECRET
-
-    //if(webhookSecretKey == null) return res.status(400).json({ status: 400, message: "Please set the TAILSCALE_WEBHOOK_SECRET environment variable"})
-    //if(webhookSecretKey) return next();
-    
-    next()
-    
-})
+    if(!webhookSecretKey) return res.status(400).json({ status: 400, message: "Please set the TAILSCALE_WEBHOOK_SECRET environment variable"});
+    if(webhookSecretKey) return next();
+});
 
 
 router.get('/', async (req, res) => {
-
-return res.status(200).json({message: "Tailscale Route"});
-
+    return res.status(200).json({message: "Tailscale Route"});
 });
 
 

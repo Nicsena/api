@@ -3,8 +3,12 @@ const router = express.Router()
 const crypto = require("crypto")
 const { exec } = require("child_process")
 
+const env = process.env
+var webhookSecret = env.GITHUB_WEBHOOK_SECRET
+
 router.all("*", (res, req, next) => {
-    next()
+    if(!webhookSecret) res.status(400).json({ status: 400, message: "Please set the GITHUB_WEBHOOK_SECRET environment variable"});
+    if(webhookSecret) return next();
 });
 
 router.get("/", (res, req) => {
@@ -12,7 +16,6 @@ router.get("/", (res, req) => {
 });
 
 router.post("/webhook/update", (res, req) => {
-    var webhookSecret = process.env.GITHUB_WEBHOOK_SECRET
     var body = JSON.stringify(res.body)
     var headers = res.headers;
     var webhookSignature = headers["x-hub-signature"]
@@ -41,6 +44,7 @@ router.post("/webhook/update", (res, req) => {
               
               pro.on('close', (code, singal) => {
                 console.log(`${pro.pid} - ${code} - ${singal}`)
+                RestartProcess();
               });
               
               pro.on('error', (err) => {
@@ -54,5 +58,17 @@ router.post("/webhook/update", (res, req) => {
     }
 
 });
+
+
+async function RestartProcess() {
+  var PMID = env.pm_id
+
+  if(process.env["PM2_HOME"]) {
+    await exec(`pm2 restart ${PMID}`)
+  } else {
+    return;
+  }
+
+}
 
 module.exports = router

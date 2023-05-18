@@ -16,6 +16,12 @@ To run this project, you will need to add the following environment variables to
 
 `GITHUB_WEBHOOK_SECRET` 
 
+`SPOTIFY_CLIENT_ID` 
+
+`SPOTIFY_CLIENT_SECRET` 
+
+`SPOTIFY_REFRESH_TOKEN` 
+
 `MONGODB_SERVER_ADDRESS`
 
 `MONGODB_SERVER_USERNAME`
@@ -34,20 +40,24 @@ To run this project, you will need to add the following environment variables to
 | `/ping` | `GET` | Pong! | `None` |
 | `/health` | `GET` | API Health - uptime, cpu load, etc | `None` |
 
-### Spotify
-This is coming soon!
+### Spotify - TODO
+
+| Endpoint  | Method     | Description                |  Params |
+| :-------- | :------- | :------------------------- | :------- |
+| `/spotify/played` | `GET` | Spotify User - Recently Played | `None` |
+| `/spotify/playing` | `GET` | Spotify User - Currently Playing | `None` |
 
 ### GitHub
 
 | Endpoint  | Method     | Description                |  Params |
 | :-------- | :------- | :------------------------- | :------- |
-| `/webhook/update` | `POST` | This is for GitHub Push Events. | `None` |
+| `/github/webhook/update` | `POST` | This is for GitHub Push Events. | `None` |
 
 ### Tailscale
 
 | Endpoint  | Method     | Description                |  Params |
 | :-------- | :------- | :------------------------- | :------- |
-| `/webhook` | `POST` | This is for subscribed Tailscale events. | `None` |
+| `/tailscale/webhook` | `POST` | This is for subscribed Tailscale events. | `None` |
 
 ## Run Locally
 
