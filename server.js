@@ -5,6 +5,7 @@ const app = express();
 const os = require('os');
 const humanizeDuration = require("humanize-duration");
 const path = require("path")
+const package = require("./package.json")
 
 const { formatBytes } = require("./src/utility")
 const { MemoryUsage } = require("./src/system")
@@ -67,7 +68,7 @@ mongodb_db.on("error", function (err) {
 // -- PUBLIC ENDPOINTS --
 
 app.get('/', (req, res) => {
-  res.status(200).json({ message: "OK" });
+  res.status(200).json({ message: "OK", version: package["version"] });
 })
 
 app.get('/ping', (req, res) => {
