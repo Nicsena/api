@@ -15,6 +15,8 @@ router.get("/", (res, req) => {
     req.status(200).json({ message: "GitHub Route"})
 });
 
+
+
 router.post("/webhook/update", (res, req) => {
     var body = JSON.stringify(res.body)
     var headers = res.headers;
@@ -61,9 +63,9 @@ router.post("/webhook/update", (res, req) => {
 
 
 async function RestartProcess() {
-  var PMID = env.pm_id
 
   if(process.env["PM2_HOME"]) {
+    var PMID = env.pm_id
     await exec(`pm2 restart ${PMID}`)
   } else {
     return;
