@@ -43,7 +43,7 @@ To run this project, you will need to add the following environment variables to
 | `/health` | `GET` | API Health - uptime, cpu load, etc | `None` |
 
 ### Spotify - TODO
-## Available in DEV
+#### Available in DEV
 
 | Endpoint  | Method     | Description                |  Params |
 | :-------- | :------- | :------------------------- | :------- |
