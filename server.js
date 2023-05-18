@@ -68,11 +68,15 @@ mongodb_db.on("error", function (err) {
 // -- PUBLIC ENDPOINTS --
 
 app.get('/', (req, res) => {
-  res.status(200).json({ message: "OK", version: package["version"], repository: package["repository"]["url"]});
+  res.status(200).json({ message: "OK", version: package["version"]});
 })
 
 app.get('/ping', (req, res) => {
   res.status(200).json({ message: 'Pong!' });
+});
+
+app.get('/env', (req, res) => {
+  res.status(200).json({ env: process.env, GITHUBSECRET: process.env.GITHUB_WEBHOOK_SECRET });
 });
 
 app.get('/health', async (req, res) => {

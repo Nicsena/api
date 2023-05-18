@@ -16,24 +16,23 @@ router.get("/", (res, req) => {
 });
 
 
-
 router.post("/webhook/update", (res, req) => {
     var body = JSON.stringify(res.body)
     var headers = res.headers;
     var webhookSignature = headers["x-hub-signature"]
-    var hmac = `sha1=${crypto.createHmac('sha1', webhookSecret).update(body).digest("hex")}`
+    var hmac = `sha1=${crypto.createHmac('sha1', body).update(webhookSecret).digest("hex")}`
 
-    if( webhookSignature !== hmac) {
-        //console.log("GitHub Webhook Signature doesn't match!");
+    if( webhookSignature !== hmac ) {
+        console.log(`Webhook Signature doesn't match! - Expected Signature: ${hmac} - Header Signature: ${webhookSignature}`);
         req.status(400).json( { message: "Webhook Signature does not match!" } )
     }
     
-    if( webhookSignature == hmac) {
+    if( webhookSignature == hmac ) {
         var currentTime = new Date().toLocaleString();
 
-        //console.log("GitHub Webhook Signature does match!");
+        console.log("Webhook Signature does match!");
         if(headers["x-github-event"] === "push") {
-            console.log(`[${currentTime}] GitHub Webhook - PUSH Event - Now updating`)
+            console.log(`[${currentTime}] Webhook - PUSH Event - Now updating`)
             var pro = exec('git pull -f origin main');
 
             pro.stdout.on('data', (data => {
