@@ -25,7 +25,7 @@ router.post("/webhook/update", (res, req) => {
 
     if( webhookSignature !== hmac ) {
         console.log(`[${currentTime} Webhook - Signature doesn't match!`);
-        req.status(400).json( { message: "Webhook Signature does not match!" } )
+        return req.status(400).json( { message: "Webhook Signature does not match!" } )
     }
     
     if( webhookSignature == hmac ) {
@@ -55,7 +55,7 @@ router.post("/webhook/update", (res, req) => {
               
 
         }
-        req.status(200).send({ message: "OK"});
+        return req.status(200).send({ message: "OK"});
     }
 
 });
