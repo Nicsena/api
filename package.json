@@ -1,6 +1,6 @@
 {
   "name": "nicsena-api",
-  "version": "0.1.0",
+  "version": "0.1.1-DEV",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -20,7 +20,7 @@
     "node": "16.x"
   },
   "repository": {
-    "url": "https://github.com/nicsena/api"
+    "url": "https://git.nicsena.tk/nicsena/api-dev"
   },
   "license": "MIT"
 }
