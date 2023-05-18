@@ -3,6 +3,10 @@ const router = express.Router();
 var { AccessToken, RecentlyPlayed, CurrentPlaying } = require("./../src/spotify")
 var { simplifiedMilliseconds } = require("./../src/utility")
 
+var SpotifyClientID = env.SPOTIFY_CLIENT_ID
+var SpotifyClientSecret = env.SPOTIFY_CLIENT_SECRET
+var SpotifyRefreshToken = env.SPOTIFY_REFRESH_TOKEN
+
 // TODO - Add caching for spotify endpoints. 
 
 router.all("/", async (req, res, next) => {
