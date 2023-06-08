@@ -40,7 +40,16 @@ To run this project, you will need to add the following environment variables to
 | :-------- | :------- | :------------------------- | :------- |
 | `/` | `GET` | . | `None` |
 | `/ping` | `GET` | Pong! | `None` |
-| `/health` | `GET` | API Health - uptime, cpu load, etc | `None` |
+
+### Health
+
+| Endpoint  | Method     | Description                |  Params |
+| :-------- | :------- | :------------------------- | :------- |
+| `/` | `GET` | API Health - uptime, cpu load, etc | `None` |
+| `/database` | `GET` | Info for Database | `None` |
+| `/uptime` | `GET` | Info for uptime of system & process | `None` |
+| `/load` | `GET` | Info for cpu load of system | `None` |
+| `/time` | `GET` | The time of the system | `None` |
 
 ### Spotify - TODO
 #### Available in DEV

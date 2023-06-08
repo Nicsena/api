@@ -2,14 +2,9 @@ require('dotenv').config()
 
 const express = require("express");
 const app = express();
-const os = require('os');
-const humanizeDuration = require("humanize-duration");
 const path = require("path");
 const env = process.env
 var package = require("./package.json")
-
-const { formatBytes } = require("./src/utility")
-const { MemoryUsage } = require("./src/system")
 
 var PORT = process.env["PORT"]
 let requests = 1;
@@ -77,60 +72,11 @@ app.get('/ping', (req, res) => {
   res.status(200).json({ message: 'Pong!' });
 });
 
-app.get('/health', async (req, res) => {
-  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Pragma', 'no-cache');
-
-  var uptime = os.uptime() * 1000
-  var processuptime = Math.round(process.uptime() * 1000);
-  var processmemory = process.memoryUsage().heapUsed;
-  var systemMemory = await MemoryUsage();
-
-  var MongooseConnection = {
-    '0': 'Disconnected',
-    '1': 'Connected',
-    '2': 'Connecting',
-    '3': 'Disconnecting',
-    '99': 'Uninitialized',
-  }
-
-  res.status(200).json({
-    database: {
-      MongoDB: {
-        status: MongooseConnection[await mongodb_db.readyState]
-     }
-    },
-    uptime: {
-      system: {
-        milliseconds: uptime,
-        human: humanizeDuration(uptime),
-      },
-      process: {
-        milliseconds: processuptime,
-        human: humanizeDuration(processuptime)
-      }
-    },
-    memory: {
-      system: {
-        total: formatBytes(systemMemory["total"]),
-        used: formatBytes(systemMemory["used"]),
-        free: formatBytes(systemMemory["free"]),
-        swap: {
-          total: formatBytes(systemMemory["swap"]["swaptotal"]),
-          used: formatBytes(systemMemory["swap"]["swapused"]),
-        }
-      },
-      process: {
-        used: formatBytes(processmemory)
-      }
-    },
-    load: os.loadavg(),
-    time: new Date().toLocaleString()  
-  })
-})
-
 
 // ==== ENDPOINTS: ====
+const HealthRouter = require(`${__dirname}/routes/health.js`)
+app.use('/health', HealthRouter)
+
 const TailscaleRouter = require(`${__dirname}/routes/tailscale.js`)
 app.use('/tailscale', TailscaleRouter)
 
