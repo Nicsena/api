@@ -51,8 +51,7 @@ To run this project, you will need to add the following environment variables to
 | `/health/load` | `GET` | Info for cpu load of system | `None` |
 | `/health/time` | `GET` | The time of the system | `None` |
 
-### Spotify - TODO
-#### Available in DEV
+### Spotify
 
 | Endpoint  | Method     | Description                |  Params |
 | :-------- | :------- | :------------------------- | :------- |
