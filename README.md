@@ -18,6 +18,8 @@ To run this project, you will need to add the following environment variables to
 
 `GIT_WEBHOOK_SECRET` 
 
+`SPOTIFY_USER_ID`
+
 `SPOTIFY_CLIENT_ID` 
 
 `SPOTIFY_CLIENT_SECRET` 
@@ -55,6 +57,8 @@ To run this project, you will need to add the following environment variables to
 
 | Endpoint  | Method     | Description                |  Params |
 | :-------- | :------- | :------------------------- | :------- |
+| `/spotify/login` | `GET` | Spotify Login | `None` |
+| `/spotify/callback` | `GET` | Spotify Callback for Login | `None` |
 | `/spotify/played` | `GET` | Spotify User - Recently Played | `None` |
 | `/spotify/playing` | `GET` | Spotify User - Currently Playing | `None` |
 
