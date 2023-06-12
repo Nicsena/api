@@ -61,6 +61,7 @@ To run this project, you will need to add the following environment variables to
 | `/spotify/callback` | `GET` | Spotify Callback for Login | `None` |
 | `/spotify/played` | `GET` | Spotify User - Recently Played | `None` |
 | `/spotify/playing` | `GET` | Spotify User - Currently Playing | `None` |
+| `/spotify/queue` | `GET` | Spotify User - Queue - **UNTESTED** | `None` |
 
 ### Git
 
