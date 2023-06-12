@@ -106,3 +106,5 @@ dist
 .DS_Store
 test.js
 .local/
+
+stuff.txt

@@ -6,6 +6,8 @@ const router = express.Router()
 
 const mongoose = require("mongoose");
 
+const env = process.env
+
 const { formatBytes } = require("../src/utility")
 const { MemoryUsage } = require("../src/system")
 
