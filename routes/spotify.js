@@ -32,7 +32,7 @@ router.all("*", async (req, res, next) => {
 
 });
 
-router.get("/", (res, req) => {
+router.get("/", (req, res) => {
     req.status(200).json({ message: "Spotify Route" });
 });
 

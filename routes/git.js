@@ -7,16 +7,16 @@ var package = require("../package.json")
 const env = process.env
 var webhookSecret = env.GIT_WEBHOOK_SECRET
 
-router.all("*", (res, req, next) => {
+router.all("*", (req, res, next) => {
     if(!webhookSecret) return res.status(400).json({ status: 400, message: "Please set the GITHUB_WEBHOOK_SECRET environment variable"});
     if(webhookSecret) return next();
 });
 
-router.get("/", (res, req) => {
+router.get("/", (req, res) => {
     req.status(200).json({ message: "GitHub Route"})
 });
 
-router.get("/repo/visit", (res, req) => {
+router.get("/repo/visit", (req, res) => {
   var RepoURL = package["repository"]["url"]
   if(!RepoURL) return res.status(200).json({ message: "There is no repository url in the package.json file."})
   if(RepoURL) return res.status(200).redirect(RepoURL);
