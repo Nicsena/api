@@ -22,8 +22,8 @@ router.get("/repo/visit", (res, req) => {
   if(RepoURL) return res.status(200).redirect(RepoURL);
 });
 
-router.post("/webhook/update", express.raw({ type: 'application/json' }), (res, req) => {
-    var body = res.body
+router.post("/webhook/update", express.raw({ inflate: true, type: 'application/json' }), (res, req) => {
+    var body = res.rawBody
     var headers = res.headers;
     var webhookSignature = headers["x-hub-signature"]
     var hmac = `sha1=${crypto.createHmac('sha1', webhookSecret).update(body).digest("hex")}`
