@@ -7,6 +7,8 @@ var package = require("../package.json")
 const env = process.env
 var webhookSecret = env.GIT_WEBHOOK_SECRET
 
+router.use(express.raw({ inflate: true, type: 'application/json' }));
+
 router.all("*", (res, req, next) => {
     if(!webhookSecret) return res.status(400).json({ status: 400, message: "Please set the GITHUB_WEBHOOK_SECRET environment variable"});
     if(webhookSecret) return next();
@@ -25,7 +27,6 @@ router.get("/repo/visit", (res, req) => {
 router.post("/webhook/update", (res, req) => {
     var body = res.body
     var headers = res.headers;
-    console.log(body)
     var webhookSignature = headers["x-hub-signature"]
     var hmac = `sha1=${crypto.createHmac('sha1', webhookSecret).update(body).digest("hex")}`
     var currentTime = new Date().toLocaleString();
