@@ -21,11 +21,15 @@ router.get('/', async (req, res) => {
 
 router.post('/webhook', async (req, res) => {
 
+var currentTime = new Date().toLocaleString();
 var webhookSignature = req.headers["tailscale-webhook-signature"];
 
-if(webhookSignature == null) return res.status(400).json({ message: "Please add the `tailscale-webhook-signature` header."})
+if(webhookSignature === null) {
+    console.log(`[${currentTime}] Tailscale Webhook - Request didn't include "tailscale-webhook-signature" header.`)
+    return res.status(400).json({ message: "Please add the `tailscale-webhook-signature` header."})
+}
 
-var time = Math.floor(Date.now() / 1000 )
+var time = Math.floor(Date.now() / 1000)
 var body = JSON.stringify(req.body)
 var webhookSecret = process.env.TAILSCALE_WEBHOOK_SECRET;
 let webhookSignatureArray = []
@@ -37,6 +41,7 @@ webhookSignature.split(",", 2).forEach((item) => {
 
 var signatureTime = webhookSignatureArray[0]["t"]
 var signatureCode = webhookSignatureArray[1]["v1"]
+
 var message = `${time}.${body}`
 var hmac = crypto.createHmac("SHA256", webhookSecret).update(message).setEncoding("hex").digest("hex")
 
@@ -45,17 +50,18 @@ var timeLeft = time - (5 * 60)
 
 // if the time of webhook signature is less than current server time.
 if(signatureTime < timeLeft ) {
-    return res.status(400).json({ message: "Invaild Webhook Signature" })
+    console.log(`[${currentTime}] Tailscale Webhook - Signature Time Expired`);
+    return res.status(200).json({ message: "Invaild Webhook Signature" })
 }
 
 if(hmac !== signatureCode) {
-    //console.log("Tailscale Webhook Signature doesn't match!");
-    res.status(400).json( { message: "Webhook Signature does not match!" } )
+    console.log(`[${currentTime}] Tailscale Webhook - Signature doesn't match!`);
+    res.status(200).json( { message: "Webhook Signature does not match!" } )
 };
 
 if(hmac == signatureCode) {
     var bodyResponse = JSON.parse(body)
-    //console.log("Tailscale Webhook Signature does match!");
+    console.log(`[${currentTime}] Tailscale Webhook - Signature does match!`);
 
     // https://tailscale.com/kb/1213/webhooks/#events-payload
     bodyResponse.forEach(i => {

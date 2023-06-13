@@ -3,6 +3,7 @@ const router = express.Router();
 const querystring = require("querystring")
 var { GetTokens, getUserInfo, AccessToken, RecentlyPlayed, CurrentPlaying, CurrentQueue } = require("./../src/spotify")
 var { simplifiedMilliseconds, generateRandomString } = require("./../src/utility")
+
 const env = process.env
 var SpotifyUserID = env.SPOTIFY_USER_ID
 var SpotifyClientID = env.SPOTIFY_CLIENT_ID
@@ -66,7 +67,7 @@ router.get("/callback", async(req, res) => {
 
   if(state === null) {
     return res.status(400).json({
-      message: "No State"
+      message: "Mismatched State"
     });
   };
 
@@ -240,6 +241,8 @@ router.get("/playing", async (req, res) => {
       var explicit = currentSongPlaying["item"]["explicit"];
       var type = currentSongPlaying["currently_playing_type"];
       var playing = currentSongPlaying["is_playing"];
+      var repeatState = currentSongPlaying["repeat_state"];
+      var shuffleState = currentSongPlaying["shuffle_state"]
       var image = currentSongPlaying["item"]["album"]["images"][0]["url"]
     
       const json = {
@@ -249,11 +252,13 @@ router.get("/playing", async (req, res) => {
         current: currentprogress,
         duration: duration,
         type: type,
+        repeat: repeatState,
+        shuffle: shuffleState,
         explicit: explicit,
         local: local,
         playing: playing,
         url: songurl,
-        image: image
+        image: image,
       };
 
       return res.status(200).json(json);
@@ -312,7 +317,7 @@ router.get("/queue", async (req, res) => {
     });
   }
 
-  return res.status(200).json(currentQueue)
+  return res.status(200).json(currentQueue["queue"])
   
 
 });

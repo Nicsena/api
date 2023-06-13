@@ -14,8 +14,9 @@ var SpotifyTokenURL = `https://accounts.spotify.com/api/token`
 var SpotifyMeURL = `${SpotifyAPI}/me/`
 
 var RecentlyPlayedURL = `${SpotifyAPI}/me/player/recently-played`
-var CurrentPlayingURL = `${SpotifyAPI}/me/player/currently-playing`
-var QueueURL = `${SpotifyAPI}/me/player/queue`
+// var CurrentPlayingURL = `${SpotifyAPI}/me/player/currently-playing`
+var CurrentPlayingURL = `${SpotifyAPI}/me/player`
+var QueueURL = `${SpotifyAPI}/me/player/queue/`
 
 var basicAuth = Buffer.from(`${SpotifyClientID}:${SpotifyClientSecret}`).toString('base64')
 // ==================
@@ -85,10 +86,12 @@ async function callbackGetTokens(code, uri) {
 
 // ========= Spotify User Info =========
 async function getUserInfo(token) {
+
+  var accessToken = token || await getAccessToken()
       
   const response = await fetch(`${SpotifyMeURL}`, {
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${accessToken}`
     },
   })
 

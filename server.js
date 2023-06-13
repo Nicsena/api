@@ -8,7 +8,8 @@ var package = require("./package.json")
 
 var PORT = process.env["PORT"]
 let requests = 1;
-app.use(express.raw({ inflate: true, type: 'application/json' }));
+// app.use(express.raw({ inflate: true, type: 'application/json' }));
+app.use(express.raw({ inflate: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
