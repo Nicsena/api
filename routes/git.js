@@ -7,9 +7,7 @@ var package = require("../package.json")
 const env = process.env
 var webhookSecret = env.GIT_WEBHOOK_SECRET
 
-router.use(express.raw({ inflate: true, type: 'application/json' }));
-
-router.all("*", (res, req, next) => {
+router.all("*", express.raw({ inflate: true, type: 'application/json' }), (res, req, next) => {
     if(!webhookSecret) return res.status(400).json({ status: 400, message: "Please set the GITHUB_WEBHOOK_SECRET environment variable"});
     if(webhookSecret) return next();
 });
