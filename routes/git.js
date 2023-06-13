@@ -23,8 +23,8 @@ router.get("/repo/visit", (res, req) => {
 });
 
 router.post("/webhook/update", express.raw({ type: "application/json"}), (req, res, next) => {
-    var body = res.body;
-    var headers = res.headers;
+    var body = req.body;
+    var headers = req.headers;
     var webhookSignature = headers["x-hub-signature"]
     var hmac = `sha1=${crypto.createHmac('sha1', webhookSecret).update(body).digest("hex")}`
     var currentTime = new Date().toLocaleString();
