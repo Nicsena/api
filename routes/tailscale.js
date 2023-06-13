@@ -30,7 +30,8 @@ if(webhookSignature === null) {
 }
 
 var time = Math.floor(Date.now() / 1000)
-var body = JSON.stringify(req.body)
+var body = req.body.toString()
+console.log(body)
 var webhookSecret = process.env.TAILSCALE_WEBHOOK_SECRET;
 let webhookSignatureArray = []
 
