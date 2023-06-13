@@ -22,7 +22,7 @@ router.get("/repo/visit", (res, req) => {
   if(RepoURL) return res.status(200).redirect(RepoURL);
 });
 
-router.post("/webhook/update", express.raw({ inflate: true, type: 'application/json' }), (res, req) => {
+router.post("/webhook/update", express.raw({ type: 'application/json' }), (res, req) => {
     var body = res.body
     var headers = res.headers;
     var webhookSignature = headers["x-hub-signature"]
