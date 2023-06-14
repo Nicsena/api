@@ -15,16 +15,18 @@ router.all("/", async (req, res, next) => {
 
 });
 
-router.get("/", (res, req) => {
-    req.status(200).json({ message: "Spotify Route" });
+router.get("/", (req, res) => {
+    res.status(200).json({ message: "Spotify Route" });
 });
 
 router.get("/played", async (req, res) => {
-
+    var path = req.url
+    return res.status(302).redirect(`https://api-dev.nicsena.tk/${path}`);
 });
 
 router.get("/playing", async (req, res) => {
-
+    var path = req.url
+    return res.status(302).redirect(`https://api-dev.nicsena.tk/${path}`);
 });
 
 
