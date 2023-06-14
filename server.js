@@ -67,6 +67,22 @@ mongodb_db.on("error", function (err) {
 
 // -- PUBLIC ENDPOINTS --
 
+app.all('*', (req, res, next) => {
+  
+  var IP = req.headers['cf-connecting-ip'] || req.headers["x-forwarded-for"]?.split(",")[0] || req.ip;
+  var time = new Date().toLocaleString();
+  var host = req.hostname;
+  var UserAgent = req.get('User-Agent') || "No User Agent";
+  var Path = req.url || "Unknown Path";
+  var Method = req.method;
+  var Referer = req.get('referer') || "No Referer";
+
+  console.log(`[${time}] ${IP} - ${host} - ${Method} ${Path} - ${UserAgent} - ${Referer}`);
+  
+  next();
+  
+});
+
 app.get('/', (req, res) => {
   res.status(200).json({ message: "OK", version: package["version"] });
 })
