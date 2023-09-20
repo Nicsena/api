@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 router.post('/webhook', async (req, res) => {
 
 var currentTime = new Date().toLocaleString();
-var webhookSignature = req.headers["tailscale-webhook-signature"];
+var webhookSignature = req.headers["tailscale-webhook-signature"] || null;
 
 if(webhookSignature === null) {
     console.log(`[${currentTime}] Tailscale Webhook - Request didn't include "tailscale-webhook-signature" header.`)
@@ -39,8 +39,8 @@ webhookSignature.split(",", 2).forEach((item) => {
   webhookSignatureArray.push({ [ i[0] ]: i[1] });
 });
 
-var signatureTime = webhookSignatureArray[0]["t"]
-var signatureCode = webhookSignatureArray[1]["v1"]
+var signatureTime = webhookSignatureArray[0]?.t
+var signatureCode = webhookSignatureArray[1]?.v1
 
 var message = `${time}.${body}`
 var hmac = crypto.createHmac("SHA256", webhookSecret).update(message).setEncoding("hex").digest("hex")
@@ -66,9 +66,9 @@ if(hmac == signatureCode) {
     // https://tailscale.com/kb/1213/webhooks/#events-payload
     bodyResponse.forEach(i => {
         var currentTime = new Date().toLocaleString();
-        var eventMessage = `[${currentTime}] Tailscale Webhook - New Event - ${i["type"]}`
+        var eventMessage = `[${currentTime}] Tailscale Webhook - New Event - ${i?.type}`
 
-        LogWebhookEvent(i, i["type"]);
+        LogWebhookEvent(i, i?.type);
         return console.log(eventMessage);
 
 

@@ -1,6 +1,5 @@
-const si = require("systeminformation");
-
 function formatBytes(bytes, decimals = 2) {
+    if (typeof(bytes) !== "number") return "";
     if (!+bytes) return '0 Bytes'
 
     const k = 1024
@@ -13,6 +12,8 @@ function formatBytes(bytes, decimals = 2) {
 }
 
 function simplifiedMilliseconds(milliseconds) {
+
+    if(typeof(milliseconds) !== "number") return ""
 
     const totalSeconds = parseInt(Math.floor(milliseconds / 1000));
     const totalMinutes = parseInt(Math.floor(totalSeconds / 60));

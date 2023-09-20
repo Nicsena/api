@@ -65,11 +65,11 @@ router.get("/callback", async(req, res) => {
   var state = req.query.state || null;
   var uri = `${req.protocol}://${req.get('host')}/spotify/callback`
 
-  if(state === null) {
-    return res.status(400).json({
-      message: "Mismatched State"
-    });
-  };
+  // if(state === null) {
+  //   return res.status(400).json({
+  //     message: "Mismatched State"
+  //   });
+  // };
 
   if(code === null) {
     return res.status(401).json({
@@ -148,11 +148,11 @@ router.get("/played", async (req, res) => {
   
     // If the Spotify API retuns 200 - OK.
     let playedSongs = []
-    json["items"].forEach(s => {
+    json?.items.forEach(s => {
       playedSongs.push({
-        song: s["track"]["name"],
-        artist: s["track"]["artists"][0]["name"],
-        played: new Date(s["played_at"]).toLocaleString(),
+        song: s?.track?.name,
+        artist: s?.track?.artists[0]["name"],
+        played: typeof(s?.played_at) === "number" ? new Date(s?.played_at).toLocaleString(): "",
       });
     })
   
@@ -179,44 +179,42 @@ router.get("/playing", async (req, res) => {
         return res.status(200).json({
           message: "Nothing is currently playing on Spotify.",
         });
-      }
+      };
 
       if (currentSongPlaying["status"] == 400) {
         return res.status(400).json({
           message: currentSongPlaying["message"],
           response: currentSongPlaying["response"]
         });
-      }
+      };
     
       if (currentSongPlaying["status"] == 401) {
         return res.status(500).json({
           message: currentSongPlaying["message"],
           response: currentSongPlaying["response"]
         });
-      }
+      };
 
       if (currentSongPlaying["status"] == 403) {
         return res.status(403).json({
           message: currentSongPlaying["message"],
           response: currentSongPlaying["response"]
         });
-      }
+      };
     
       if (currentSongPlaying["status"] == 429) {
         return res.status(429).json({
           message: currentSongPlaying["message"],
           response: currentSongPlaying["response"]
         });
-      }
+      };
     
       // If a Ad was playing.
-      if (currentSongPlaying["currently_playing_type"] == "ad") {
-        var startedtime = new Date(currentSongPlaying["timestamp"]).toLocaleString();
-        var currentprogress = simplifiedMilliseconds(
-          currentSongPlaying["progress_ms"]
-        );
-        var type = currentSongPlaying["currently_playing_type"];
-        var playing = currentSongPlaying["is_playing"];
+      if (currentSongPlaying?.currently_playing_type == "ad") {
+        var startedtime = new Date(currentSongPlaying?.timestamp).toLocaleString();
+        var currentprogress = simplifiedMilliseconds(currentSongPlaying?.progress_ms);
+        var type = currentSongPlaying?.currently_playing_type;
+        var playing = currentSongPlaying?.is_playing;
     
         return res.status(200).json({
           startedplaying: startedtime,
@@ -224,27 +222,23 @@ router.get("/playing", async (req, res) => {
           type: type,
           playing: playing,
         });
-      }
+      };
     
       // If a Song was playing
-      var artist = currentSongPlaying["item"]["artists"][0]["name"];
-      var song = currentSongPlaying["item"]["name"];
-      var songurl = currentSongPlaying["item"]["external_urls"]["spotify"]
-      var startedtime = new Date(currentSongPlaying["timestamp"]).toLocaleString();
-      var currentprogress = simplifiedMilliseconds(
-        currentSongPlaying["progress_ms"]
-      );
-      var duration = simplifiedMilliseconds(
-        currentSongPlaying["item"]["duration_ms"]
-      );
-      var local = currentSongPlaying["item"]["is_local"];
-      var explicit = currentSongPlaying["item"]["explicit"];
-      var type = currentSongPlaying["currently_playing_type"];
-      var playing = currentSongPlaying["is_playing"];
-      var repeatState = currentSongPlaying["repeat_state"];
-      var shuffleState = currentSongPlaying["shuffle_state"]
-      var image = currentSongPlaying["item"]["album"]["images"][0]["url"]
-    
+      var artist = currentSongPlaying?.item?.artists[0]["name"];
+      var song = currentSongPlaying?.item?.name;
+      var songurl = currentSongPlaying?.item?.external_urls["spotify"]
+      var startedtime = typeof(currentSongPlaying?.timestamp) === "number" ? new Date(currentSongPlaying?.timestamp).toLocaleString() : "";
+      var currentprogress = simplifiedMilliseconds(currentSongPlaying?.progress_ms);
+      var duration = simplifiedMilliseconds(currentSongPlaying?.item?.duration_ms);
+      var local = currentSongPlaying?.item?.is_local;
+      var explicit = currentSongPlaying?.item?.explicit;
+      var type = currentSongPlaying?.currently_playing_type
+      var playing = currentSongPlaying?.is_playing
+      var repeatState = currentSongPlaying?.repeat_state
+      var shuffleState = currentSongPlaying?.shuffle_state
+      var image = currentSongPlaying?.item?.album["images"][0]["url"]
+
       const json = {
         song: song,
         artist: artist,
@@ -317,7 +311,7 @@ router.get("/queue", async (req, res) => {
     });
   }
 
-  return res.status(200).json(currentQueue["queue"])
+  return res.status(200).json(currentQueue)
   
 
 });

@@ -40,14 +40,21 @@ async function callbackGetTokens(code, uri) {
   })
 
   var result = await response
-  var body = await result.json();
+  var body = await result.text();
 
-  if(result["status"] === 200) {
+  try {
+    var body = JSON.parse(body);
+  } catch (err) {
+    console.error(err);
+    var body = body;
+  }
+
+  if(result?.status === 200) {
     
     // User ID Check
-    var userInfo = await getUserInfo(body["access_token"])
+    var userInfo = await getUserInfo(body.access_token)
 
-    if(SpotifyUserID && userInfo.id !== SpotifyUserID ) return "Incorrect User ID";
+    if(SpotifyUserID && userInfo?.id !== SpotifyUserID ) return "Incorrect User ID";
 
     if(SpotifyUserID) {
       if(!SpotifyRefreshToken) {
@@ -61,7 +68,7 @@ async function callbackGetTokens(code, uri) {
       console.log(`\nPut these in .env\nSPOTIFY_USER_ID=${userInfo["id"]}\nSPOTIFY_REFRESH_TOKEN=${body["refresh_token"]}\n`);
     }
 
-    return { refresh_token: body["refresh_token"], scope: body["scope"], user: { id: userInfo["id"] } };
+    return { refresh_token: body.refresh_token, scope: body.scope, user: { id: userInfo.id } };
 
   }
   
@@ -96,7 +103,14 @@ async function getUserInfo(token) {
   })
 
   var result = await response
-  var body = await result.json();
+  var body = await result.text();
+
+  try {
+    var body = JSON.parse(body);
+  } catch (err) {
+    console.log(err);
+    var body = body;
+  }
 
   if(result["status"] === 200) {
     return body
@@ -140,7 +154,7 @@ async function getAccessToken() {
     var result = await response
     var body = await result.json()
     
-    return body["access_token"];
+    return body.access_token;
   
 }
 
@@ -157,23 +171,30 @@ async function getRecentlyPlayed() {
       })
     
       const result = await response
-      var body = await result.json();
+      var body = await result.text();
+
+      try {
+        var body = JSON.parse(body);
+      } catch (err) {
+        console.error(err);
+        var body = body;
+      }
       
       if(result["status"] === 200) {
         return body
       }
       
       if(result["status"] === 400) {
-       return { status: 400, message: "Spotify API - Bad Request", response: body}
+        return { status: 400, message: "Spotify API - Bad Request", response: body}
       }
 
       if(result["status"] === 401) {
         return { status: 401, message: "Spotify API - Unauthorized", response: body}
-       }
+      }
 
-       if(result["status"] === 403) {
+      if(result["status"] === 403) {
         return { status: 403, message: "Spotify API - Forbidden", response: body}
-       }
+      }
       
       if(result["status"] === 429) {
        return { status: 429, message: "Spotify API - Rate Limit", response: body}
@@ -195,7 +216,15 @@ async function getCurrentPlaying() {
     });
       
       const result = await response
-      var body = await result.json();
+
+      var body = await result.text();
+
+      try {
+        var body = JSON.parse(body);
+      } catch (err) {
+        console.error(err);
+        var body = body;
+      }
     
       if(result["status"] === 200) {
         return body
@@ -239,10 +268,17 @@ async function getQueue() {
     })
   
     const result = await response
-    var body = await result.json();
+    var body = await result.text();
+
+    try {
+      var body = JSON.parse(body);
+    } catch (err) {
+      console.error(err);
+      var body = body;
+    }
     
     if(result["status"] === 200) {
-      return body["queue"]
+      return body?.queue
     }
     
     if(result["status"] === 400) {
