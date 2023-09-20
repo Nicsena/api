@@ -65,11 +65,11 @@ router.get("/callback", async(req, res) => {
   var state = req.query.state || null;
   var uri = `${req.protocol}://${req.get('host')}/spotify/callback`
 
-  // if(state === null) {
-  //   return res.status(400).json({
-  //     message: "Mismatched State"
-  //   });
-  // };
+  if(state === null) {
+    return res.status(400).json({
+      message: "Mismatched State"
+    });
+  };
 
   if(code === null) {
     return res.status(401).json({
