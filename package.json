@@ -1,6 +1,6 @@
 {
   "name": "nicsena-api",
-  "version": "0.1.1-DEV",
+  "version": "0.1.1",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
